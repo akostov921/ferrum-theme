@@ -1,0 +1,38 @@
+<section class="fe-blog fe-section">
+  <div class="fe-page">
+    <header><span class="fe-eyebrow">Journal</span><h1 class="fe-display">{{ blog.title }}</h1></header>
+    <div class="fe-rule"></div>
+    <ul class="fe-blog__list">
+      {%- paginate blog.articles by 12 -%}
+        {%- for article in blog.articles -%}
+          <li class="fe-blog__item">
+            <a href="{{ article.url }}" class="fe-blog__link">
+              {%- if article.image -%}
+                {{ article.image | image_url: width: 800 | image_tag: class: 'fe-blog__img', loading: 'lazy', widths: '480,720,800,1200', alt: article.title | escape }}
+              {%- endif -%}
+              <div class="fe-blog__meta">
+                <small class="fe-eyebrow">{{ article.published_at | date: '%B %-d, %Y' }}</small>
+                <h2 class="fe-h2 fe-blog__title">{{ article.title }}</h2>
+                <p class="fe-blog__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+                <span class="fe-link">Read essay</span>
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- endpaginate -%}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+.fe-blog__list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--fe-space-8); margin-top: var(--fe-space-6); }
+.fe-blog__item { padding-bottom: var(--fe-space-7); border-bottom: 1px solid var(--fe-rule); }
+.fe-blog__link { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--fe-space-6); color: inherit; }
+.fe-blog__img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; }
+.fe-blog__meta { display: grid; gap: var(--fe-space-3); align-content: start; }
+.fe-blog__title { margin-top: var(--fe-space-1); }
+.fe-blog__excerpt { color: var(--fe-ink-soft); line-height: 1.6; max-width: 56ch; }
+@media (max-width: 720px) { .fe-blog__link { grid-template-columns: 1fr; } }
+{% endstylesheet %}
+
+{% schema %}{ "name": "Blog", "tag": "section" }{% endschema %}

@@ -1,0 +1,25 @@
+{%- assign aspect = aspect | default: 'cover' -%}
+<a class="fe-card fe-reveal" href="{{ product.url }}">
+  <div class="fe-card__media fe-card__media--{{ aspect }}">
+    {%- if product.featured_image -%}{%- assign fea = product.title | escape -%}{{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300,500,800', sizes: '(min-width:880px) 25vw, 50vw', alt: fea, class: 'fe-card__img' }}
+    {%- else -%}<div class="fe-card__ph"></div>{%- endif -%}
+    {%- if product.tags contains 'new' -%}<span class="fe-card__tag">New</span>{%- endif -%}
+  </div>
+  <div class="fe-card__body">
+    <h3 class="fe-card__title">{{ product.title }}</h3>
+    <span class="fe-card__price">{{ product.price | money_without_trailing_zeros }}</span>
+  </div>
+</a>
+{% stylesheet %}
+.fe-card { display: block; color: inherit; }
+.fe-card__media { position: relative; background: var(--fe-bg-2); overflow: hidden; border-radius: var(--fe-radius); }
+.fe-card__media--cover { aspect-ratio: 3/4; }
+.fe-card__media--square { aspect-ratio: 1/1; }
+.fe-card__img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--fe-dur-slow) var(--fe-ease); }
+.fe-card:hover .fe-card__img { transform: scale(1.04); }
+.fe-card__ph { width: 100%; height: 100%; background: linear-gradient(135deg, var(--fe-bg-2), var(--fe-line)); }
+.fe-card__tag { position: absolute; top: var(--fe-space-3); left: var(--fe-space-3); background: var(--fe-accent); color: var(--fe-ink); padding: 0.2rem 0.55rem; border-radius: 4px; font-family: var(--fe-mono); font-size: var(--fe-fs-mono); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+.fe-card__body { padding-top: var(--fe-space-3); display: flex; justify-content: space-between; align-items: baseline; gap: var(--fe-space-3); }
+.fe-card__title { font-family: var(--fe-display); font-weight: 500; font-size: 0.95rem; }
+.fe-card__price { font-family: var(--fe-display); font-weight: 600; font-size: 0.9375rem; font-feature-settings: "tnum"; }
+{% endstylesheet %}

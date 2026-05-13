@@ -1,0 +1,12 @@
+<section class="fe-section"><div class="fe-page fe-page--narrow">
+  <header><span class="fe-eyebrow">Account</span><h1 class="fe-display">Sign in</h1></header>
+  <div class="fe-rule"></div>
+  {%- form 'customer_login', class: 'fe-auth' -%}
+    {{ form.errors | default_errors }}
+    <label class="fe-eyebrow">Email <input class="fe-input" name="customer[email]" type="email" required></label>
+    <label class="fe-eyebrow">Password <input class="fe-input" name="customer[password]" type="password" required></label>
+    <button type="submit" class="fe-btn">Sign in</button>
+    <p class="fe-auth__alt"><a class="fe-link" href="{{ routes.account_recover_url }}">Forgot password</a> · <a class="fe-link" href="{{ routes.account_register_url }}">Create account</a></p>
+  {%- endform -%}
+</div></section>
+<style>.fe-auth { display: grid; gap: var(--fe-space-4); margin-top: var(--fe-space-4); } .fe-auth label { display: grid; gap: var(--fe-space-1); } .fe-auth__alt { font-size: var(--fe-fs-sm); display: flex; gap: var(--fe-space-2); }</style>

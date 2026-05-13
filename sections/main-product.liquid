@@ -1,0 +1,101 @@
+{%- comment %} Composition: pdp.gallery-mosaic.images-collage — multi-image collage above the fold, small sticky cart below. {% endcomment -%}
+{%- liquid
+  assign cv = product.selected_or_first_available_variant
+-%}
+<section class="fe-pdp fe-section" data-section-id="{{ section.id }}">
+  <div class="fe-page">
+    <div class="fe-pdp__top">
+      <div class="fe-pdp__breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span>/</span>
+        {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a><span>/</span>{%- endif -%}
+        <span>{{ product.title }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="fe-page fe-pdp__layout">
+    <div class="fe-pdp__mosaic">
+      {%- assign media = product.media -%}
+      {%- if media.size > 0 -%}
+        {%- for m in media limit: 6 -%}
+          {%- if m.media_type == 'image' -%}
+            {%- assign mc = forloop.index0 | modulo: 5 -%}
+            {%- case mc -%}{%- when 0 -%}{%- assign cls = 'large' -%}{%- when 1 -%}{%- assign cls = 'small' -%}{%- when 2 -%}{%- assign cls = 'wide' -%}{%- when 3 -%}{%- assign cls = 'small' -%}{%- else -%}{%- assign cls = 'tall' -%}{%- endcase -%}
+            <figure class="fe-pdp__shot fe-pdp__shot--{{ cls }}">{{ m | image_url: width: 1000 | image_tag: loading: forloop.first | default: 'eager', widths: '400,700,1000' }}</figure>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..5) -%}
+          {%- assign mc = forloop.index0 | modulo: 5 -%}
+          {%- case mc -%}{%- when 0 -%}{%- assign cls = 'large' -%}{%- when 1 -%}{%- assign cls = 'small' -%}{%- when 2 -%}{%- assign cls = 'wide' -%}{%- when 3 -%}{%- assign cls = 'small' -%}{%- else -%}{%- assign cls = 'tall' -%}{%- endcase -%}
+          <figure class="fe-pdp__shot fe-pdp__shot--{{ cls }}"><img src="https://images.unsplash.com/photo-{{ '1551488831-00ddcb6c6bd3,1591047139829-d91aecb6caea,1542272604-787c3835535d,1551028719-00167b16eac5,1556909114-f6e7ad7d3136' | split: ',' | slice: forloop.index0 | first }}?w=1000&q=85" alt="" width="1000" height="1250" loading="lazy"></figure>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <aside class="fe-pdp__panel">
+      <div class="fe-pdp__panel-inner">
+        <span class="fe-eyebrow">{{ product.type | default: 'Shell' }}</span>
+        <h1 class="fe-h1">{{ product.title }}</h1>
+        <p class="fe-pdp__price">{{ cv.price | money_without_trailing_zeros }}</p>
+        {%- if product.description != blank -%}<div class="fe-pdp__desc">{{ product.description | strip_html | truncatewords: 40 }}</div>{%- else -%}<p class="fe-pdp__desc">A modular 3-layer Pertex shell engineered to clip into Ferrum's liner system. Recyclable. Built to repair, not replace.</p>{%- endif -%}
+
+        <fe-product-form>
+          {%- form 'product', product, class: 'fe-pdp__form' -%}
+            {%- if product.has_only_default_variant == false -%}
+              {%- for option in product.options_with_values -%}
+                <fieldset class="fe-pdp__option"><legend class="fe-eyebrow">{{ option.name }}</legend>
+                  <div class="fe-pdp__chips">{%- for value in option.values -%}<label class="fe-pdp__chip"><input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}><span>{{ value }}</span></label>{%- endfor -%}</div>
+                </fieldset>
+              {%- endfor -%}
+            {%- endif -%}
+            <input type="hidden" name="id" value="{{ cv.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="fe-btn fe-btn--accent fe-pdp__buy" {% unless cv.available %}disabled{% endunless %}>{%- if cv.available -%}Add to bag · {{ cv.price | money_without_trailing_zeros }}{%- else -%}Sold out{%- endif -%}</button>
+          {%- endform -%}
+        </fe-product-form>
+
+        <details class="fe-pdp__details">
+          <summary class="fe-eyebrow">Specifications</summary>
+          <dl><dt>Weight</dt><dd>420 g</dd><dt>Material</dt><dd>3-layer Pertex Shield</dd><dt>Waterproof</dt><dd>20k mm</dd><dt>Made in</dt><dd>Portugal</dd></dl>
+        </details>
+        <details class="fe-pdp__details">
+          <summary class="fe-eyebrow">Repair & lifetime</summary>
+          <p>Every piece comes with a lifetime repair guarantee. Send it back; we send it forward.</p>
+        </details>
+      </div>
+    </aside>
+  </div>
+</section>
+{% stylesheet %}
+.fe-pdp__top { padding-bottom: var(--fe-space-4); }
+.fe-pdp__breadcrumb { display: flex; gap: var(--fe-space-2); font-size: var(--fe-fs-sm); color: var(--fe-ink-soft); }
+.fe-pdp__breadcrumb a:hover { color: var(--fe-ink); }
+.fe-pdp__layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--fe-space-6); align-items: start; }
+.fe-pdp__mosaic { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: var(--fe-space-3); }
+.fe-pdp__shot { margin: 0; overflow: hidden; border-radius: var(--fe-radius); background: var(--fe-bg-2); }
+.fe-pdp__shot img { width: 100%; height: 100%; object-fit: cover; }
+.fe-pdp__shot--large { grid-column: span 4; grid-row: span 2; }
+.fe-pdp__shot--small { grid-column: span 2; }
+.fe-pdp__shot--wide { grid-column: span 4; }
+.fe-pdp__shot--tall { grid-column: span 2; grid-row: span 2; }
+.fe-pdp__panel { position: sticky; top: 100px; }
+.fe-pdp__panel-inner { background: var(--fe-paper); padding: var(--fe-space-5); border-radius: var(--fe-radius); display: grid; gap: var(--fe-space-3); }
+.fe-pdp__price { font-family: var(--fe-display); font-weight: 700; font-size: 1.25rem; padding-block: var(--fe-space-3); border-block: 1px solid var(--fe-line); }
+.fe-pdp__desc { color: var(--fe-ink-soft); font-size: 0.95rem; line-height: 1.55; }
+.fe-pdp__form { display: grid; gap: var(--fe-space-3); }
+.fe-pdp__option { border: 0; padding: 0; margin: 0; display: grid; gap: var(--fe-space-2); }
+.fe-pdp__chips { display: flex; gap: var(--fe-space-2); flex-wrap: wrap; }
+.fe-pdp__chip { position: relative; cursor: pointer; }
+.fe-pdp__chip input { position: absolute; opacity: 0; pointer-events: none; }
+.fe-pdp__chip span { display: inline-flex; padding: 0.55rem 1rem; border: 1px solid var(--fe-line); font-size: var(--fe-fs-sm); border-radius: var(--fe-radius); transition: all var(--fe-dur); }
+.fe-pdp__chip input:checked + span { background: var(--fe-ink); color: var(--fe-paper); border-color: var(--fe-ink); }
+.fe-pdp__buy { justify-content: center; }
+.fe-pdp__buy[disabled] { opacity: 0.5; }
+.fe-pdp__details { border-top: 1px solid var(--fe-line); padding-top: var(--fe-space-3); margin-top: var(--fe-space-2); }
+.fe-pdp__details summary { cursor: pointer; }
+.fe-pdp__details dl { margin-top: var(--fe-space-3); display: grid; grid-template-columns: 1fr 1fr; gap: var(--fe-space-2); font-size: var(--fe-fs-sm); }
+.fe-pdp__details dt { color: var(--fe-ink-soft); }
+@media (max-width: 880px) { .fe-pdp__layout { grid-template-columns: 1fr; } .fe-pdp__panel { position: static; } .fe-pdp__mosaic { grid-template-columns: repeat(2, 1fr); } .fe-pdp__shot--large, .fe-pdp__shot--small, .fe-pdp__shot--wide, .fe-pdp__shot--tall { grid-column: span 2; grid-row: auto; } }
+{% endstylesheet %}
+{% schema %}{ "name": "Product", "tag": "section" }{% endschema %}

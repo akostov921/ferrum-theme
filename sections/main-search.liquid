@@ -1,0 +1,39 @@
+<section class="fe-search fe-section">
+  <div class="fe-page fe-page--narrow">
+    <header><span class="fe-eyebrow">Search</span>
+      <h1 class="fe-h1">{%- if search.performed -%}Results for "{{ search.terms | escape }}"{%- else -%}Search the catalogue{%- endif -%}</h1>
+    </header>
+    <form action="{{ routes.search_url }}" method="get" class="fe-search__form">
+      <label class="fe-vh" for="q">Search</label>
+      <input id="q" type="search" name="q" value="{{ search.terms | escape }}" class="fe-input" placeholder="{{ 'general.search.placeholder' | t }}" autofocus>
+      <button type="submit" class="fe-link">Search</button>
+    </form>
+    <div class="fe-rule"></div>
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <div class="fe-search__list">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item, aspect: 'cover' %}
+            {%- else -%}
+              <a class="fe-search__item" href="{{ item.url }}">
+                <small class="fe-eyebrow">{{ item.object_type }}</small>
+                <strong class="fe-h3">{{ item.title }}</strong>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p>{{ 'general.search.no_results_html' | t: terms: search.terms }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.fe-search__form { display: grid; grid-template-columns: 1fr auto; gap: var(--fe-space-3); align-items: end; margin-top: var(--fe-space-4); }
+.fe-search__list { display: grid; gap: var(--fe-space-5); margin-top: var(--fe-space-5); }
+.fe-search__item { display: grid; gap: var(--fe-space-1); padding-block: var(--fe-space-3); border-bottom: 1px solid var(--fe-rule); }
+{% endstylesheet %}
+
+{% schema %}{ "name": "Search", "tag": "section" }{% endschema %}

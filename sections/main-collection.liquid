@@ -1,0 +1,49 @@
+{%- comment %} collection.split-filter.sidebar-left.grid-right — tech-utility filter ux {% endcomment -%}
+<section class="fe-coll fe-section" data-section-id="{{ section.id }}">
+  <div class="fe-page">
+    <header class="fe-coll__head">
+      <div>
+        <span class="fe-eyebrow">Collection</span>
+        <h1 class="fe-h1">{{ collection.title }}</h1>
+      </div>
+      <small class="fe-coll__count">{{ collection.products_count }} products</small>
+    </header>
+    <div class="fe-rule" style="margin-block:var(--fe-space-4)"></div>
+    <div class="fe-coll__layout">
+      <aside class="fe-coll__filter">
+        <h3 class="fe-eyebrow" style="margin-bottom:var(--fe-space-2)">Filter</h3>
+        <details open><summary>Type</summary>
+          <ul><li><a href="?type=shell">Shells</a></li><li><a href="?type=liner">Liners</a></li><li><a href="?type=base">Base layers</a></li></ul>
+        </details>
+        <details open><summary>Sort by</summary>
+          <ul><li><a href="?sort_by=manual">Featured</a></li><li><a href="?sort_by=price-ascending">Price: low to high</a></li><li><a href="?sort_by=price-descending">Price: high to low</a></li><li><a href="?sort_by=created-descending">Newest</a></li></ul>
+        </details>
+      </aside>
+      <div class="fe-coll__main">
+        {%- if collection.products.size > 0 -%}
+          {%- paginate collection.products by 24 -%}
+            <div class="fe-coll__grid">{%- for product in collection.products -%}{% render 'product-card', product: product %}{%- endfor -%}</div>
+            {%- if paginate.pages > 1 -%}<nav class="fe-coll__pager">{%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">← Prev</a>{%- endif -%}<span class="fe-eyebrow">{{ paginate.current_page }} / {{ paginate.pages }}</span>{%- if paginate.next -%}<a href="{{ paginate.next.url }}">Next →</a>{%- endif -%}</nav>{%- endif -%}
+          {%- endpaginate -%}
+        {%- else -%}<p class="fe-coll__empty">Empty for now. <a href="{{ routes.all_products_collection_url }}">View all</a></p>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% stylesheet %}
+.fe-coll__head { display: flex; justify-content: space-between; align-items: end; gap: var(--fe-space-4); }
+.fe-coll__count { color: var(--fe-mute); font-family: var(--fe-mono); font-size: var(--fe-fs-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.fe-coll__layout { display: grid; grid-template-columns: 200px 1fr; gap: var(--fe-space-6); align-items: start; }
+.fe-coll__filter { position: sticky; top: 100px; display: grid; gap: var(--fe-space-4); }
+.fe-coll__filter details summary { cursor: pointer; font-family: var(--fe-display); font-weight: 500; font-size: var(--fe-fs-sm); padding-bottom: var(--fe-space-2); }
+.fe-coll__filter ul { list-style: none; padding: 0; margin-top: var(--fe-space-2); display: grid; gap: var(--fe-space-2); }
+.fe-coll__filter a { color: var(--fe-ink-soft); font-size: var(--fe-fs-sm); transition: color var(--fe-dur); }
+.fe-coll__filter a:hover { color: var(--fe-ink); }
+.fe-coll__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--fe-space-4); }
+.fe-coll__pager { display: flex; justify-content: space-between; margin-top: var(--fe-space-6); padding-top: var(--fe-space-4); border-top: 1px solid var(--fe-line); color: var(--fe-ink-soft); font-size: var(--fe-fs-sm); }
+.fe-coll__empty { padding-block: var(--fe-space-8); text-align: center; color: var(--fe-ink-soft); }
+@media (max-width: 1100px) { .fe-coll__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 880px) { .fe-coll__layout { grid-template-columns: 1fr; } .fe-coll__filter { position: static; } }
+@media (max-width: 600px) { .fe-coll__grid { grid-template-columns: repeat(2, 1fr); } }
+{% endstylesheet %}
+{% schema %}{ "name": "Collection", "tag": "section" }{% endschema %}

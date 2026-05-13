@@ -1,0 +1,29 @@
+{%- comment %} nav.sticky-blur-on-scroll (tech-utility) {% endcomment -%}
+<header class="fe-header" data-section-id="{{ section.id }}">
+  <div class="fe-page fe-header__inner">
+    <a href="{{ routes.root_url }}" class="fe-header__logo">{%- if section.settings.logo != blank -%}{{ section.settings.logo | image_url: width: 400 | image_tag: width: 120, height: 32 }}{%- else -%}<span class="fe-header__wm">{{ shop.name }}</span><span class="fe-header__dot">●</span>{%- endif -%}</a>
+    <nav class="fe-header__nav" aria-label="Main">{%- for link in linklists[section.settings.menu].links -%}<a href="{{ link.url }}" class="fe-header__link">{{ link.title }}</a>{%- endfor -%}</nav>
+    <div class="fe-header__actions">
+      <a href="{{ routes.search_url }}" class="fe-header__action">Search</a>
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="fe-header__action">Account</a>
+      <button data-cart-toggle class="fe-btn fe-header__cart">Bag · <span data-cart-count>{{ cart.item_count }}</span></button>
+    </div>
+  </div>
+</header>
+{% stylesheet %}
+.fe-header { position: sticky; top: 0; z-index: 100; background: rgba(247,246,243,0); transition: background var(--fe-dur), backdrop-filter var(--fe-dur), border-color var(--fe-dur); border-bottom: 1px solid transparent; }
+.fe-header.is-scrolled { background: rgba(247,246,243,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--fe-line); }
+.fe-header__inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-block: var(--fe-space-4); gap: var(--fe-space-5); }
+.fe-header__logo { justify-self: start; display: inline-flex; align-items: center; gap: var(--fe-space-2); }
+.fe-header__wm { font-family: var(--fe-display); font-weight: 700; font-size: 1.0625rem; letter-spacing: -0.01em; }
+.fe-header__dot { color: var(--fe-accent-deep); font-size: 0.75rem; }
+.fe-header__nav { display: flex; gap: var(--fe-space-6); justify-self: center; }
+.fe-header__link { font-size: var(--fe-fs-sm); color: var(--fe-ink-soft); transition: color var(--fe-dur); }
+.fe-header__link:hover { color: var(--fe-ink); }
+.fe-header__actions { display: flex; gap: var(--fe-space-3); justify-self: end; align-items: center; }
+.fe-header__action { font-size: var(--fe-fs-sm); color: var(--fe-ink-soft); cursor: pointer; }
+.fe-header__action:hover { color: var(--fe-ink); }
+.fe-header__cart { padding: 0.5rem 0.9rem; font-size: 0.875rem; }
+@media (max-width: 768px) { .fe-header__nav { display: none; } .fe-header__inner { grid-template-columns: auto 1fr; } .fe-header__action { display: none; } }
+{% endstylesheet %}
+{% schema %}{ "name": "Header", "settings": [{ "type": "image_picker", "id": "logo", "label": "Logo" }, { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }] }{% endschema %}

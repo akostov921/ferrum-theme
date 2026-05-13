@@ -1,0 +1,21 @@
+<article class="fe-page-cms fe-section">
+  <div class="fe-page fe-page--narrow">
+    <header>
+      <span class="fe-eyebrow">Page</span>
+      <h1 class="fe-display">{{ page.title }}</h1>
+    </header>
+    <div class="fe-rule"></div>
+    <div class="fe-page-cms__body">{{ page.content }}</div>
+  </div>
+</article>
+
+{% stylesheet %}
+.fe-page-cms__body { font-size: 1.0625rem; line-height: 1.7; color: var(--fe-ink-soft); }
+.fe-page-cms__body h2 { font-family: var(--fe-serif); font-size: var(--fe-fs-h2); margin-top: var(--fe-space-7); margin-bottom: var(--fe-space-3); color: var(--fe-ink); }
+.fe-page-cms__body h3 { font-family: var(--fe-serif); font-size: var(--fe-fs-h3); margin-top: var(--fe-space-5); margin-bottom: var(--fe-space-3); color: var(--fe-ink); }
+.fe-page-cms__body p { margin-bottom: var(--fe-space-4); }
+.fe-page-cms__body img { margin-block: var(--fe-space-5); }
+.fe-page-cms__body a { color: var(--fe-accent); border-bottom: 1px solid currentColor; }
+{% endstylesheet %}
+
+{% schema %}{ "name": "Page", "tag": "section" }{% endschema %}

@@ -1,0 +1,7 @@
+{
+  "sections": {
+    "hero": { "type": "hero", "settings": { "eyebrow": "FERRUM · FW26", "heading": "Outerwear, built to layer.", "lead": "Modular shells, liners, and base layers — each engineered to work alone or together. Buy what you need; clip in the rest as the season turns.", "cta_text": "Shop the system →", "cta_link": "/collections/all" } },
+    "featured": { "type": "featured-products", "blocks": { "s": { "type": "rail", "settings": { "heading": "Shells" } }, "l": { "type": "rail", "settings": { "heading": "Liners" } }, "b": { "type": "rail", "settings": { "heading": "Base layers" } } }, "block_order": ["s","l","b"], "settings": { "eyebrow": "THE SYSTEM", "heading": "Layer for any weather." } }
+  },
+  "order": ["hero", "featured"]
+}

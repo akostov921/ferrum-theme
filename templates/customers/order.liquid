@@ -1,0 +1,9 @@
+<section class="fe-section"><div class="fe-page fe-page--narrow">
+  <header><span class="fe-eyebrow">Order</span><h1 class="fe-display">{{ order.name }}</h1></header>
+  <p>Placed {{ order.created_at | date: '%B %-d, %Y' }}. Total <strong>{{ order.total_price | money }}</strong>.</p>
+  <table class="fe-table">
+    <thead><tr><th>Title</th><th>Qty</th><th>Total</th></tr></thead>
+    <tbody>{%- for li in order.line_items -%}<tr><td>{{ li.title }}</td><td>{{ li.quantity }}</td><td>{{ li.final_line_price | money }}</td></tr>{%- endfor -%}</tbody>
+  </table>
+  <p style="margin-top: 1.5rem;"><a class="fe-link" href="{{ routes.account_url }}">Back to account</a></p>
+</div></section>

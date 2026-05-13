@@ -1,0 +1,16 @@
+<section class="fe-section"><div class="fe-page fe-page--narrow">
+  <header><span class="fe-eyebrow">Account</span><h1 class="fe-display">Addresses</h1></header>
+  {%- for address in customer.addresses -%}
+    <article class="fe-addr"><p>{{ address | format_address }}</p><a class="fe-link" href="{{ address.url }}">Edit</a></article>
+  {%- endfor -%}
+  {%- form 'customer_address', customer.new_address -%}
+    <h2 class="fe-h3" style="margin-top: var(--fe-space-6);">Add new</h2>
+    <label class="fe-eyebrow">First <input class="fe-input" name="address[first_name]"></label>
+    <label class="fe-eyebrow">Last <input class="fe-input" name="address[last_name]"></label>
+    <label class="fe-eyebrow">Address <input class="fe-input" name="address[address1]"></label>
+    <label class="fe-eyebrow">City <input class="fe-input" name="address[city]"></label>
+    <label class="fe-eyebrow">Country <input class="fe-input" name="address[country]"></label>
+    <button type="submit" class="fe-btn" style="margin-top: var(--fe-space-3);">Save</button>
+  {%- endform -%}
+</div></section>
+<style>.fe-addr { padding: var(--fe-space-3) 0; border-bottom: 1px solid var(--fe-rule); } label { display: grid; gap: 0.25rem; margin: 0.5rem 0; }</style>

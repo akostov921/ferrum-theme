@@ -1,0 +1,10 @@
+<section class="fe-section"><div class="fe-page fe-page--narrow">
+  <h1 class="fe-display">Activate account</h1>
+  <p class="fe-lead">Set a password to finish activating your account.</p>
+  {%- form 'activate_customer_password' -%}
+    {{ form.errors | default_errors }}
+    <label class="fe-eyebrow">Password <input class="fe-input" name="customer[password]" type="password" required></label>
+    <label class="fe-eyebrow">Confirm <input class="fe-input" name="customer[password_confirmation]" type="password" required></label>
+    <button type="submit" class="fe-btn">Activate</button>
+  {%- endform -%}
+</div></section>
