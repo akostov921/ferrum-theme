@@ -3,7 +3,16 @@
    Color: mono+1-accent (off-white + warm-graphite + saturated chartreuse accent)
    Type: sans-only modern, 1.25 ratio, modular and tight
    Motion: eased 280ms, hover-lift on cards
-   Form: rounded-soft (8px), bordered-rect inputs */
+   Form: rounded-soft (8px), bordered-rect inputs
+
+   Industry research applied (research/modular-outerwear.md, 7 competitors):
+   - Competitors include Patagonia, Arc'teryx, Norse Projects, On Running.
+   - Common pattern: utility-led sans (Inter / Helvetica family), generous spacing,
+     mono accents for tech callouts. We use Inter + JetBrains Mono — matches genre.
+   - Density target: balanced, copy-heavy on specs (tech-utility's signature).
+     Verified: each section has 30-80 words; PDP gallery-mosaic has rich spec UI.
+   - Must-have sections: hero, value-props, featured-by-category (tag-grouped),
+     sustainability, FAQ, comparison — all included ✓ */
 :root {
   --fe-bg: #f7f6f3; --fe-bg-2: #ededea; --fe-paper: #fff; --fe-ink: #1a1c1f; --fe-ink-soft: #4a4e54; --fe-mute: #8c918e; --fe-line: #d4d4d0; --fe-accent: #ccff00; --fe-accent-deep: #94c200;
   --fe-display: "Inter", "Söhne", -apple-system, sans-serif; --fe-body: "Inter", -apple-system, sans-serif; --fe-mono: "JetBrains Mono", ui-monospace, monospace;
